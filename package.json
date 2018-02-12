@@ -1,0 +1,48 @@
+{
+  "name": "intuitiv-api",
+  "version": "1.0.0",
+  "description": "New api for intuitiv node version",
+  "main": "src/server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon --exec 'babel-node --inspect ./src/server.js'",
+    "lint-test": "./node_modules/.bin/eslint ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://aferlim.visualstudio.com/intuitiv/_git/intuitiv-api"
+  },
+  "keywords": [
+    "intuitiv",
+    "cms",
+    "monndo.com",
+    "open",
+    "cms"
+  ],
+  "author": "Andre Ferreira Lima (aferlim@gmail.com)",
+  "license": "ISC",
+  "dependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "bcrypt-nodejs": "0.0.3",
+    "bluebird": "^3.5.1",
+    "body-parser": "^1.18.2",
+    "consign": "^0.1.6",
+    "ejs": "^2.5.7",
+    "express": "^4.16.2",
+    "express-ejs-layouts": "^2.3.1",
+    "express-session": "^1.15.6",
+    "extend": "^3.0.1",
+    "mongoose": "^5.0.1",
+    "validator": "^9.4.0"
+  },
+  "devDependencies": {
+    "eslint": "^4.16.0",
+    "eslint-config-google": "^0.9.1",
+    "eslint-config-standard": "^11.0.0-beta.0",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-node": "^5.2.1",
+    "eslint-plugin-promise": "^3.6.0",
+    "eslint-plugin-standard": "^3.0.1"
+  }
+}
