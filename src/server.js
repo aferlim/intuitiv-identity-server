@@ -5,7 +5,7 @@ import path from 'path'
 import session from 'express-session'
 import expresslayouts from 'express-ejs-layouts'
 
-import config from './config/global'
+import config from './lib/config/global'
 
 global.Promisse = require('bluebird')
 
@@ -21,6 +21,8 @@ app.use(expresslayouts)
 
 app.set('views', path.join(path.dirname(require.main.filename || process.mainModule.filename), '/public/view'))
 
+app.use('/css', express.static(path.join(path.dirname(require.main.filename || process.mainModule.filename), '/public/css')))
+
 app.set('view engine', 'ejs')
 
 app.use(session({
@@ -30,7 +32,7 @@ app.use(session({
 }))
 
 consign({ cwd: 'src', verbose: true })
-    .include('config/database.js')
+    .include('lib/config/database.js')
     .into(config)
 
 consign({ cwd: 'src', verbose: true })

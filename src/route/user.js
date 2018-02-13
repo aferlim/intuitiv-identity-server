@@ -1,11 +1,11 @@
 
 import User from '../schemas/user/user'
 
-import { ok, error } from '../lib/result-promisses'
+import { ok, error } from '../lib/handler/base-result'
 
 module.exports = app => {
     //
-    app.route('/users')
+    app.route('/api/users')
 
         .post((req, res) => {
             //

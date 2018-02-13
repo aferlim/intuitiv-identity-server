@@ -1,10 +1,10 @@
-import Scope from '../schemas/auth/scope'
+import scope from '../schemas/auth/scope'
 
-import { ok, error } from '../lib/result-promisses'
+import { ok, error, errorRender } from '../lib/handler/base-result'
 
 module.exports = app => {
     //
-    app.route('/client/scope')
+    app.route('/api/client/scope')
 
         .post((req, res) => {
             //
@@ -13,13 +13,22 @@ module.exports = app => {
                 name: req.body.name
             }
 
-            Scope.add(candidate)
+            scope.add(candidate)
                 .then(data => ok(res, data))
                 .catch(err => error(res, err))
         })
         .get((req, res) => {
-            Scope.findAll({})
+            scope.findAll({})
                 .then(data => ok(res, data))
                 .catch(err => error(res, err))
+        })
+
+    app.route('/client/scope')
+        .get((req, res) => {
+            scope.findAll({})
+
+                .then(data => res.render('client/scope-list', { scopes: data }))
+
+                .catch(err => errorRender(res, err))
         })
 }

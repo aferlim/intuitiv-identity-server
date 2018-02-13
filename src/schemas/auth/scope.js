@@ -2,7 +2,7 @@
 import mongoose from 'mongoose'
 import extend from 'extend'
 
-import { ok, nok } from '../../lib/schema-promisses'
+import { ok, nok } from '../../lib/handler/schema'
 
 const schema = mongoose.Schema({
     _id: { type: String, required: true },

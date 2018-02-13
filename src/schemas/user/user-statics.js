@@ -1,5 +1,5 @@
 
-import { ok, nok } from '../../lib/schema-promisses'
+import { ok, nok } from '../../lib/handler/schema'
 
 module.exports = {
     findAll: function(filter) {

@@ -1,0 +1,27 @@
+<%- contentFor('body') %>
+
+    <h2>Scopes</h2>
+    <p>Registred scopes in api resources. Use it for provide client restrictions roles</p>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            <% scopes.forEach(function(scope, index) { %>
+                <tr>
+                    <th scope="row">
+                        <%= index + 1 %>
+                    </th>
+                    <td>
+                        <%= scope.name %>
+                    </td>
+                </tr>
+                <% }); %>
+
+        </tbody>
+    </table>
+    <%- contentFor('head') %>
