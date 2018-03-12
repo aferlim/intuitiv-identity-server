@@ -6,8 +6,10 @@ module.exports = {
 
     notfound: (res) => res.sendStatus(404),
 
-    notfoundRender: (res) => res.redirect('/notfound'),
+    badrequest: (res, result) => res.status(400).json({ errors: result }),
 
-    errorRender: (res) => res.redirect('/500')
+    notfoundRender: (res, err) => res.redirect('/notfound'),
+
+    errorRender: (res, err) => res.redirect('/500')
 
 }

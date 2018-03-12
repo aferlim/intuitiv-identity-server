@@ -1,10 +1,8 @@
 import mongoose from 'mongoose'
-
-// import bcrypt from 'bcrypt-nodejs'
-
 import { isEmail } from 'validator'
-
 import extend from 'extend'
+
+import roleSchema from './role-schema'
 
 const userSchema = mongoose.Schema({
 
@@ -26,16 +24,17 @@ const userSchema = mongoose.Schema({
         unique: true,
         required: 'Email address is required',
         validate: [isEmail, 'Please fill a valid email address']
-    }
+    },
 
+    role: [roleSchema],
+
+    created: { type: Date }
 })
 
-extend(userSchema.statics, require('./user-statics'))
-
-extend(userSchema.methods, require('./user-methods'))
+extend(userSchema, require('./user-statics'), require('./user-methods'))
 
 // Execute before each user.save() call
-userSchema.pre('save', function(callback) {
+userSchema.pre('save', function (callback) {
     // Break out if the password hasn't changed
     this.presave(this, callback)
 })

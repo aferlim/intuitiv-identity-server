@@ -1,0 +1,48 @@
+<%- contentFor('body') %>
+
+    <h2>New Client</h2>
+    <p>Create new api client. ClientId will be generate after</p>
+    <form action="add" method="POST">
+        <div class="form-group">
+            <label for="namescope">Name</label>
+            <input type="text" name="name" class="form-control" id="namescope" placeholder="Enter client name">
+            <small class="form-text text-muted">Client description.</small>
+        </div>
+
+        <div class="form-group">
+            <label for="secret">Secret</label>
+            <input type="text" name="secret" class="form-control" id="secret" placeholder="Enter client secret">
+            <small class="form-text text-muted">Your client secret.</small>
+        </div>
+
+        <div class="form-group">
+            <label for="scope">Scopes</label>
+            <select multiple name="scope" id="scope" class="form-control">
+                <% scopes.forEach(function(scope, index) { %>
+                    <option value="<%= scope._id %>"><%= scope.name %></option>
+                    <% }); %>
+            </select>
+            <small class="form-text text-muted">Many scopes are permited.</small>
+        </div>
+
+        <div class="form-group">
+            <label for="returnUrl">Return URL</label>
+            <input type="text" name="returnUrl" class="form-control" id="returnUrl" placeholder="Enter a valid redirect url">
+            <small class="form-text text-muted">Security`s client callback url. Ex. https://yourdomain.com</small>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+        <a role="button" class="btn btn-secondary" href="/client">Cancel</a>
+    </form>
+
+    <% if(errors){ %>
+        <hr>
+        <% errors.forEach(function(err){ %>
+            <div class="alert alert-danger">
+                <%= err.param %>:
+                    <%= err.msg %>
+            </div>
+            <% }) 
+    }%>
+
+<%- contentFor('head') %>

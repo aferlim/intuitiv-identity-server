@@ -1,12 +1,15 @@
 <%- contentFor('body') %>
 
     <h2>Scopes</h2>
-    <p>Registred scopes in api resources. Use it for provide client restrictions roles</p>
+    <p>Registred scopes in api resources. Use it for provide client restrictions rules</p>
+    <p><a class="btn btn-primary btn-sm" role="button" href="/client/scope/add">Add new</a></p>
     <table class="table">
         <thead>
             <tr>
                 <th scope="col">#</th>
                 <th scope="col">Name</th>
+                <th scope="col">Description</th>
+                <th scope="col"></th>
             </tr>
         </thead>
         <tbody>
@@ -19,9 +22,67 @@
                     <td>
                         <%= scope.name %>
                     </td>
+                    <td>
+                            <%= scope.description %>
+                        </td>
+                    <td>
+                            <a class="btn btn-danger btn-sm" href="#" role="button"data-toggle="modal" 
+                            data-target="#removeModal" data-removeaction="<%= scope._id %>" data-removetitle="<%= scope.name %>">Remove</a>
+                        </td>
                 </tr>
                 <% }); %>
 
         </tbody>
     </table>
+
+
+      <!-- Modal -->
+  <div class="modal fade" id="removeModal" tabindex="-1" role="dialog" aria-labelledby="removeModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="removeModalLabel">Remove Client</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <p>Are you sure to delete <span id="for_remove"></span>?</p>
+    
+                <form action="/client/scope/remove" method="POST" id="removeClient">
+                    <input type="hidden" name="scopeId">
+                </form>
+    
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary" onclick="ConfirmRemove()">Confirm Delete</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+      
+    
+      <script type="text/javascript">
+        
+        $('#removeModal').on('show.bs.modal', function (event) {
+    
+            var button = $(event.relatedTarget) // Button that triggered the modal
+            var clientId = button.data('removeaction') // Extract info from data-* attributes
+            var clientTitle = button.data('removetitle')
+    
+            var modal = $(this)
+            modal.find('#for_remove').text(clientTitle)
+            modal.find('.modal-title').text('Remove ' + clientTitle)
+            modal.find('.modal-body input').val(clientId)
+    
+        })
+    
+        function ConfirmRemove(){
+            $('.modal-body form').submit()
+        }
+    
+      </script>
+
     <%- contentFor('head') %>

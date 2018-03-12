@@ -1,7 +1,7 @@
 
-import User from '../schemas/user/user'
+import User from '../../model/user/user'
 
-import { ok, error } from '../lib/handler/base-result'
+import { ok, error } from '../../lib/handler/base-result'
 
 module.exports = app => {
     //
