@@ -1,5 +1,5 @@
 
-import { ok, nok } from '../../lib/handler/schema'
+const { ok, nok } = require('../../lib/handler/schema')
 
 module.exports = {
     statics: {
@@ -11,7 +11,6 @@ module.exports = {
         },
 
         add: function (candidate) {
-            //
             if (!candidate.username || candidate.username === '') { return nok('invalid username') }
 
             var ins = new this(candidate)

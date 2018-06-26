@@ -1,15 +1,13 @@
-import { check, validationResult } from 'express-validator/check'
-import express from 'express'
+const { check, validationResult } = require('express-validator/check')
+const express = require('express')
 
-import scope from '../../model/auth/scope'
-import { ok, error, badrequest } from '../../lib/handler/base-result'
+const scope = require('../../../model/auth/scope')
+const { ok, error, badrequest } = require('../../../lib/handler/base-result')
 
 module.exports = app => {
-    //
     const apiRouter = express.Router()
 
-    apiRouter.route('/client/scope')
-
+    apiRouter.route('/client')
         .post([
             check('name').trim().isLength({ min: 3, max: 200 })
                 .withMessage('Please insert a valid name')
@@ -21,8 +19,6 @@ module.exports = app => {
                 })
         ],
         (req, res) => {
-            //
-
             let errors = validationResult(req)
 
             if (!errors.isEmpty()) {
@@ -31,8 +27,7 @@ module.exports = app => {
 
             let candidate = {
                 _id: req.body.name,
-                name: req.body.name,
-                description: req.body.description
+                name: req.body.name
             }
 
             scope.add(candidate)

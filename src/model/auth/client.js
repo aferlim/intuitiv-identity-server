@@ -1,7 +1,7 @@
-import mongoose from 'mongoose'
-import ex from 'extend'
+const mongoose = require('mongoose')
+const ex = require('extend')
 
-import scopeSchema from './scope-schema'
+const scopeSchema = require('./scope-schema')
 
 const schema = mongoose.Schema({
 
@@ -13,7 +13,7 @@ const schema = mongoose.Schema({
 
     scope: [scopeSchema],
 
-    returnUrl: { type: String, required: true },
+    redirectUri: { type: String, required: true },
 
     created: { type: Date }
 

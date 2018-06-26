@@ -1,13 +1,14 @@
-import { check, validationResult } from 'express-validator/check'
+const { check, validationResult } = require('express-validator/check')
 
-import scope from '../../model/auth/scope'
-import { notfoundRender, errorRender } from '../../lib/handler/base-result'
+const scope = require('../../model/auth/scope')
+const { notfoundRender, errorRender } = require('../../lib/handler/base-result')
+
+const { isLoggedIn } = require('../../lib/config/passport')
 
 module.exports = app => {
-    //
-
     app.route('/client/scope')
-        .get((req, res) => {
+
+        .get(isLoggedIn, (req, res) => {
             scope.findAll({})
 
                 .then(data => res.render('client/scope-list', { scopes: data }))
@@ -17,10 +18,12 @@ module.exports = app => {
 
     app.route('/client/scope/add')
 
-        .get((req, res) => res.render('client/scope-add', { errors: undefined }))
+        .get(isLoggedIn, (req, res) => res.render('client/scope-add', { errors: undefined }))
 
         .post(
             [
+                isLoggedIn,
+
                 check('name').trim().isLength({ min: 3, max: 200 })
                     .withMessage('Please insert a valid name')
                     .custom(value => {
@@ -52,8 +55,9 @@ module.exports = app => {
             })
 
     app.route('/client/scope/remove')
-        .post((req, res) => {
-            //
+
+        .post(isLoggedIn, (req, res) => {
+
             if (!req.body.scopeId || req.body.scopeId === '') {
                 return notfoundRender(res, null)
             }

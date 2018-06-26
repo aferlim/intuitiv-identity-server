@@ -1,0 +1,30 @@
+<%- contentFor('head') %>
+
+    <%- contentFor('body') %>
+        <form class="was-validated" action="/oauth/authorize" method="POST">
+
+            <h2>Authorization Request</h2>
+
+            <p>Hi <%= user.username %>!</p>
+
+            <p>
+                <b><%= client.name %></b> is requesting the <b>following permission(s)</b> to your account.
+            </p>
+
+            <% scope.forEach((sc, index) => { %>
+
+                <div class="custom-control custom-checkbox mb-3">
+                    <input type="checkbox" name="scope[]" class="custom-control-input" value="<%= sc._id %>" checked id="customControlValidation1">
+                    <label class="custom-control-label" for="customControlValidation1">
+                        <%= sc.description %>
+                    </label>
+                    <div class="invalid-feedback">It will not be permited</div>
+                </div>
+                <% }); %>
+
+            <p>Do you approve?</p>
+
+            <input name="transaction_id" type="hidden" value="<%= transactionID %>">
+            <button class="btn btn-danger" type="submit" value="Deny">Deny</button>
+            <button class="btn btn-primary" type="submit" value="Allow">Allow</button>
+        </form>

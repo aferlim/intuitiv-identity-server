@@ -1,9 +1,12 @@
-import { check, validationResult } from 'express-validator/check'
-import { notfoundRender, errorRender } from '../../lib/handler/base-result'
+const { check, validationResult } = require('express-validator/check')
+const { notfoundRender, errorRender } = require('../../lib/handler/base-result')
 
-import scope from '../../model/auth/scope'
-import clientModel from '../../model/auth/client'
-import moment from 'moment'
+const scope = require('../../model/auth/scope')
+const clientModel = require('../../model/auth/client')
+
+const { isLoggedIn } = require('../../lib/config/passport')
+
+const moment = require('moment')
 
 let scopesList = null
 
@@ -23,7 +26,8 @@ const loadScopes = (ok, result) => {
 
 module.exports = app => {
     app.route('/client')
-        .get((req, res) => {
+
+        .get(isLoggedIn, (req, res) => {
             clientModel.findAllOrMany({})
                 .then(data => res.render('client/client-list', { clients: data }))
 
@@ -31,8 +35,8 @@ module.exports = app => {
         })
 
     app.route('/client/add')
-        .get((req, res) => {
-            //
+
+        .get(isLoggedIn, (req, res) => {
             loadScopes((data, result) => {
                 let model = { errors: undefined, scopes: data }
                 result.render('client/client-add', model)
@@ -41,6 +45,8 @@ module.exports = app => {
 
         .post(
             [
+                isLoggedIn,
+
                 check('name').trim().isLength({ min: 3, max: 200 }),
 
                 check('secret').trim().isLength({ min: 3 })
@@ -68,19 +74,21 @@ module.exports = app => {
 
                 scope.findAll({ _id: { $in: req.body.scope } })
                     .then(data => {
-                        //
                         let candidate = {
                             name: req.body.name,
                             secret: req.body.secret,
                             admin: 1,
                             scope: data,
-                            returnUrl: req.body.returnUrl,
+                            redirectUri: req.body.returnUrl,
                             created: moment()
                         }
 
                         clientModel.add(candidate)
 
-                            .then(data => res.redirect('/client'))
+                            .then(data => {
+                                scopesList = null
+                                res.redirect('/client')
+                            })
 
                             .catch(err => errorRender(res, err))
                     })
@@ -89,14 +97,15 @@ module.exports = app => {
             })
 
     app.route('/client/remove')
-        .post((req, res) => {
-            //
+
+        .post(isLoggedIn, (req, res) => {
             if (!req.body.clientId || req.body.clientId === '') {
                 notfoundRender(res, null)
             }
 
             clientModel.removeOne(req.body.clientId)
                 .then(data => {
+                    scopesList = null
                     res.redirect('/client')
                 })
                 .catch(err => {

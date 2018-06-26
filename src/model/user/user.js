@@ -1,8 +1,8 @@
-import mongoose from 'mongoose'
-import { isEmail } from 'validator'
-import extend from 'extend'
+const mongoose = require('mongoose')
+const { isEmail } = require('validator')
+const extend = require('extend')
 
-import roleSchema from './role-schema'
+const roleSchema = require('./role-schema')
 
 const userSchema = mongoose.Schema({
 
@@ -28,7 +28,29 @@ const userSchema = mongoose.Schema({
 
     role: [roleSchema],
 
-    created: { type: Date }
+    created: { type: Date },
+
+    facebook: {
+        id: String,
+        token: String,
+        name: String,
+        email: String
+    },
+
+    twitter: {
+        id: String,
+        token: String,
+        displayName: String,
+        username: String
+    },
+
+    google: {
+        id: String,
+        token: String,
+        email: String,
+        name: String
+    }
+
 })
 
 extend(userSchema, require('./user-statics'), require('./user-methods'))

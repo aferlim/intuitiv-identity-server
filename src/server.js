@@ -1,11 +1,13 @@
-import express from 'express'
-import bodyParser from 'body-parser'
-import consign from 'consign'
-import path from 'path'
-import session from 'express-session'
-import expresslayouts from 'express-ejs-layouts'
+const express = require('express')
+const bodyParser = require('body-parser')
+const consign = require('consign')
+const path = require('path')
+const session = require('express-session')
+const expresslayouts = require('express-ejs-layouts')
+const flash = require('connect-flash')
 
-import config from './lib/config/global'
+const config = require('./lib/config/global')
+const passportCfg = require('./lib/config/passport')
 
 global.Promisse = require('bluebird')
 
@@ -25,11 +27,12 @@ app.use('/css', express.static(path.join(path.dirname(require.main.filename || p
 
 app.set('view engine', 'ejs')
 
-app.use(session({
-    secret: 'Super Secret Session Key',
-    saveUninitialized: true,
-    resave: false
-}))
+app.use(session({ secret: 'intuitiv-cms-node' }))
+
+app.use(passportCfg.initialize())
+app.use(passportCfg.useSession())
+
+app.use(flash())
 
 consign({ cwd: 'src', verbose: true })
     .include('lib/config/database.js')
@@ -38,5 +41,9 @@ consign({ cwd: 'src', verbose: true })
 consign({ cwd: 'src', verbose: true })
     .include('route')
     .into(app)
+
+app.use(require('./lib/config/login-session'))
+
+app.use(require('./lib/handler/server-error'))
 
 app.listen(config.PORT, () => console.log(`Intuitiv API - porta ${config.PORT}`))

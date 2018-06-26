@@ -1,4 +1,4 @@
-import mongoose from 'mongoose'
+const mongoose = require('mongoose')
 
 const scopeSchema = mongoose.Schema({
     _id: { type: String, required: true },

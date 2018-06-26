@@ -1,0 +1,23 @@
+<%- contentFor('head') %>
+    <!-- Custom styles for this template -->
+    <link href="/css/error.css" rel="stylesheet">
+
+    <%- contentFor('body') %>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="error-template">
+                        <h1>
+                            Oops!</h1>
+                        <h2>403 Unauthorized</h2>
+                        <div class="error-details">
+                            Sorry, an error has occured. The resource cannot be authorized!
+                        </div>
+                        <hr class="hr">
+                        <div class="alert alert-danger" role="alert">
+                            <strong>Error result: </strong>  <%= err.message %>.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>

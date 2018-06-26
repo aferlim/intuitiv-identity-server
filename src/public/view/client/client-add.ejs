@@ -1,7 +1,7 @@
 <%- contentFor('body') %>
 
     <h2>New Client</h2>
-    <p>Create new api client. ClientId will be generate after</p>
+    <p>Create new api client. ClientId will be generate after you submit it</p>
     <form action="add" method="POST">
         <div class="form-group">
             <label for="namescope">Name</label>
@@ -26,7 +26,7 @@
         </div>
 
         <div class="form-group">
-            <label for="returnUrl">Return URL</label>
+            <label for="returnUrl">Redirect URI</label>
             <input type="text" name="returnUrl" class="form-control" id="returnUrl" placeholder="Enter a valid redirect url">
             <small class="form-text text-muted">Security`s client callback url. Ex. https://yourdomain.com</small>
         </div>

@@ -1,4 +1,4 @@
-import { ok, nok } from '../../lib/handler/schema'
+const { ok, nok } = require('../../lib/handler/schema')
 
 module.exports = {
     statics: {

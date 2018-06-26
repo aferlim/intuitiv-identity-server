@@ -1,23 +1,30 @@
-import bcrypt from 'bcrypt-nodejs'
+const bcrypt = require('bcrypt-nodejs')
+const { ok, nok } = require('../../lib/handler/schema')
 
 module.exports = {
     methods: {
-        presave: (callback) => {
-            if (!this.isModified('password')) return callback()
+        presave: (target, callback) => {
+            if (!target.isModified('password')) return callback()
 
             var salt = bcrypt.genSaltSync(5)
-            var hash = bcrypt.hashSync(this.password, salt)
+            var hash = bcrypt.hashSync(target.password, salt)
 
-            this.password = hash
+            target.password = hash
             callback()
         },
 
-        verifyPassword: (password, userpass, back) => {
-            bcrypt.compare(password, userpass, (err, isMatch) => {
+        verifyPassword: (hash, password, back) => {
+            return bcrypt.compare(password, hash, (err, isMatch) => {
                 if (err) { return back(err) }
 
                 back(null, isMatch)
             })
+        },
+
+        removeIt: function () {
+            return this.remove()
+                .then(ok)
+                .catch(nok)
         }
     }
 }

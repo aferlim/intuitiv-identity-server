@@ -4,8 +4,11 @@
   "description": "New api for intuitiv node version",
   "main": "src/server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon --exec 'babel-node --inspect ./src/server.js'",
+    "test": "NODE_ENV=test mocha 'test/unit/**/*.js'",
+    "e2e-test": "NODE_ENV=test mocha 'test/unit/**/*.js' --require test/test-helper",
+    "check-coverage": "NODE_ENV=test nyc --check-coverage --lines 100 npm test",
+    "coverage": "NODE_ENV=test nyc --reporter=text mocha",
+    "start": "nodemon --inspect ./src/server.js",
     "lint-test": "./node_modules/.bin/eslint ."
   },
   "repository": {
@@ -22,11 +25,10 @@
   "author": "Andre Ferreira Lima (aferlim@gmail.com)",
   "license": "ISC",
   "dependencies": {
-    "babel-cli": "^6.26.0",
-    "babel-preset-env": "^1.6.1",
     "bcrypt-nodejs": "0.0.3",
     "bluebird": "^3.5.1",
     "body-parser": "^1.18.2",
+    "connect-flash": "^0.1.1",
     "consign": "^0.1.6",
     "ejs": "^2.5.7",
     "express": "^4.16.2",
@@ -36,15 +38,26 @@
     "extend": "^3.0.1",
     "moment-timezone": "^0.5.14",
     "mongoose": "^5.0.1",
+    "oauth2orize": "^1.11.0",
+    "passport": "^0.4.0",
+    "passport-http": "^0.3.0",
+    "passport-http-bearer": "^1.0.1",
+    "passport-local": "^1.0.0",
+    "uuid": "^3.2.1",
     "validator": "^9.4.0"
   },
   "devDependencies": {
+    "chai": "^4.1.2",
+    "chai-as-promised": "^7.1.1",
     "eslint": "^4.16.0",
     "eslint-config-google": "^0.9.1",
     "eslint-config-standard": "^11.0.0-beta.0",
     "eslint-plugin-import": "^2.8.0",
     "eslint-plugin-node": "^5.2.1",
     "eslint-plugin-promise": "^3.6.0",
-    "eslint-plugin-standard": "^3.0.1"
+    "eslint-plugin-standard": "^3.0.1",
+    "istanbul": "^0.4.5",
+    "mocha": "^5.1.1",
+    "nyc": "^11.8.0"
   }
 }

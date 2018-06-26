@@ -1,10 +1,10 @@
 
-import mongoose from 'mongoose'
-import extend from 'extend'
+const mongoose = require('mongoose')
+const extend = require('extend')
 
-import { ok, nok } from '../../lib/handler/schema'
+const { ok, nok } = require('../../lib/handler/schema')
 
-import roleSchema from './role-schema'
+const roleSchema = require('./role-schema')
 
 let statics = {
     statics: {

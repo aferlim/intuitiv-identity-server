@@ -1,5 +1,5 @@
-module.exports = {
-    PORT: process.env.port || 3000,
-    MONGO_CONNECTION_STRING: process.env.MONGO_CONNECTION_STRING || 'mongodb://localhost:27017/intuitiv'
+const env = process.env.NODE_ENV
 
-}
+var config = env ? require(`./env/global.${env}`) : require('./env/global.dev')
+
+module.exports = config
