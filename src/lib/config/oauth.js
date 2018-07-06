@@ -64,12 +64,12 @@ server.exchange(oauth2orize.exchange.code((client, code, redirectURI, done) => {
 
             if (err) return done(err)
 
-            let token = utils.uid(16)
-            let refreshToken = utils.uid(16)
+            let tokenCode = utils.uid(16)
+            let refreshTokenCode = utils.uid(16)
 
-            let tokenHash = crypto.createHash('sha1').update(token).digest('hex')
+            let tokenHash = crypto.createHash('sha1').update(tokenCode).digest('hex')
 
-            let refreshTokenHash = crypto.createHash('sha1').update(refreshToken).digest('hex')
+            let refreshTokenHash = crypto.createHash('sha1').update(refreshTokenCode).digest('hex')
 
             let expirationDate = moment().add(2, 'hours')
 
@@ -95,12 +95,11 @@ server.exchange(oauth2orize.exchange.code((client, code, redirectURI, done) => {
 
                     if (err) return done(err)
 
-                    delete accessToken._id
-                    delete accessToken.___v
+                    // delete accessToken._id
+                    // delete accessToken.___v
 
-                    accessToken.refreshToken = refreshToken
-
-                    done(null, accessToken)
+                    // done(null, accessToken)
+                    done(null, tokenCode, { expires_in: expirationDate, refreshToken: refreshTokenCode, scope: accessToken.scope })
 
                 })
 

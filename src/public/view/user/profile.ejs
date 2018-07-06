@@ -26,7 +26,17 @@
         <h4 class="my-0 font-weight-normal">Facebook</h4>
       </div>
       <div class="card-body">
-        <button type="button" class="btn btn-lg btn-block btn-primary">Connect</button>
+
+        <% if (user.facebook && user.facebook.id) { %>
+          <h1 class="card-title pricing-card-title"><%= user.facebook.name %></h1>
+          <ul class="list-unstyled mt-3 mb-4">
+            <li><%= user.facebook.id %></li>
+            <li><%= user.facebook.email %></li>
+            <li><%= user.facebook.token %></li>
+          </ul>
+        <% } %>
+
+        <a class="btn btn-lg btn-block btn-primary" href="/profile/link/facebook">Connect</a>
       </div>
     </div>
     <div class="card mb-4 box-shadow">

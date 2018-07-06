@@ -1,4 +1,4 @@
-module.exports = function (req, res, next) {
+module.exports = (req, res, next) => {
 
     if (!(req.path === '/login' || req.path.startsWith('/oauth/')) && req.session.returnUrl) {
         delete req.session.returnUrl

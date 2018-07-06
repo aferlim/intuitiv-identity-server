@@ -2,8 +2,6 @@ const mongoose = require('mongoose')
 const { isEmail } = require('validator')
 const extend = require('extend')
 
-const roleSchema = require('./role-schema')
-
 const userSchema = mongoose.Schema({
 
     username: {
@@ -26,7 +24,7 @@ const userSchema = mongoose.Schema({
         validate: [isEmail, 'Please fill a valid email address']
     },
 
-    role: [roleSchema],
+    role: [String],
 
     created: { type: Date },
 

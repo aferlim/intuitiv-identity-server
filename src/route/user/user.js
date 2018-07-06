@@ -34,7 +34,7 @@ const addUser = (req, res, data) => {
         username: req.body.username,
         email: req.body.email,
         password: req.body.password,
-        role: data.map(item => ({ _id: item._id, name: item.name, description: item.description })),
+        role: data.map(item => item.name),
         created: moment()
     }
 

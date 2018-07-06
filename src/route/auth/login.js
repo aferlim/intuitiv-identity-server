@@ -42,6 +42,10 @@ module.exports = (app) => {
 
     })
 
+    app.get('/login/facebook', passport.authenticate('facebook', {
+        scope: ['public_profile', 'email']
+    }))
+
     app.get('/logout', isLoggedIn, (req, res) => {
         req.logout()
         res.redirect('/')
