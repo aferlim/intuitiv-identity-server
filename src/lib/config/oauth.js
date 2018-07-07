@@ -24,7 +24,7 @@ server.deserializeClient((id, done) => {
 // Register grant (used to issue authorization codes)
 server.grant(oauth2orize.grant.code((client, redirectURI, user, ares, done) => {
 
-    let code = utils.uid(16)
+    let code = utils.uid(32)
 
     let codeHash = crypto.createHash('sha1').update(code).digest('hex')
 
@@ -40,6 +40,32 @@ server.grant(oauth2orize.grant.code((client, redirectURI, user, ares, done) => {
 
         if (err) return done(err)
         done(null, code)
+
+    })
+
+}))
+
+server.grant(oauth2orize.grant.token(function (client, user, ares, req, done) {
+
+    if (req.redirectURI !== client.redirectUri) return done(null, false)
+
+    let token = utils.uid(32)
+    let tokenHash = crypto.createHash('sha1').update(token).digest('hex')
+    let expirationDate = moment().add(2, 'hours')
+
+    let accessToken = new AccessToken({
+        token: tokenHash,
+        expirationDate: expirationDate,
+        userId: user.username,
+        clientId: client._id,
+        scope: ares.scope || ['profile']
+    })
+
+    accessToken.save((err) => {
+
+        if (err) return done(err)
+
+        return done(null, token, { expires_in: expirationDate.format('MM_DD_YYYY_HH_mm_ss'), scope: accessToken.scope })
 
     })
 
@@ -64,8 +90,8 @@ server.exchange(oauth2orize.exchange.code((client, code, redirectURI, done) => {
 
             if (err) return done(err)
 
-            let tokenCode = utils.uid(16)
-            let refreshTokenCode = utils.uid(16)
+            let tokenCode = utils.uid(32)
+            let refreshTokenCode = utils.uid(32)
 
             let tokenHash = crypto.createHash('sha1').update(tokenCode).digest('hex')
 
@@ -95,10 +121,6 @@ server.exchange(oauth2orize.exchange.code((client, code, redirectURI, done) => {
 
                     if (err) return done(err)
 
-                    // delete accessToken._id
-                    // delete accessToken.___v
-
-                    // done(null, accessToken)
                     done(null, tokenCode, { expires_in: expirationDate, refreshToken: refreshTokenCode, scope: accessToken.scope })
 
                 })
@@ -125,7 +147,7 @@ server.exchange(oauth2orize.exchange.refreshToken((client, refreshToken, scope, 
 
         if (client._id.toString() !== token.clientId) return done(null, false)
 
-        let newAccessToken = utils.uid(16)
+        let newAccessToken = utils.uid(32)
 
         let accessTokenHash = crypto.createHash('sha1').update(newAccessToken).digest('hex')
 
