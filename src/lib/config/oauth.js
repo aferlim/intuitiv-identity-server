@@ -224,7 +224,9 @@ module.exports = {
     ],
 
     decision: [
-        server.decision((req, done) => done(null, { scope: req.body.scope }))
+        server.decision({ cancelField: 'cancel' }, (req, done) => (
+            done(null, { scope: req.body.scope })
+        ))
     ],
 
     token: [
