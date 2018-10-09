@@ -47,11 +47,13 @@ passport.deserializeUser((id, done) => {
 
 const islogged = (req, res, next) => {
 
-    if (req.isAuthenticated()) {
-        return next()
-    }
+    return next()
 
-    res.redirect(`/login?returnUrl=${encodeURIComponent(req.originalUrl)}`)
+    // if (req.isAuthenticated()) {
+    //     return next()
+    // }
+
+    // res.redirect(`/login?returnUrl=${encodeURIComponent(req.originalUrl)}`)
 }
 
 passport.use('client-basic', new BasicStrategy(

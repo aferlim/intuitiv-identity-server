@@ -8,7 +8,8 @@
     "e2e-test": "NODE_ENV=test mocha 'test/unit/**/*.js' --require test/test-helper",
     "check-coverage": "NODE_ENV=test nyc --check-coverage --lines 100 npm test",
     "coverage": "NODE_ENV=test nyc --reporter=text mocha",
-    "start": "nodemon --inspect ./src/server.js",
+    "nodemon": "nodemon --inspect ./src/server.js",
+    "start": "node ./src/server.js",
     "lint-test": "./node_modules/.bin/eslint ."
   },
   "repository": {

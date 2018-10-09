@@ -29,7 +29,7 @@
                     <td>
                         <%= user.email %>
                     </td>
-                    <td><% user.role.forEach(user_role => { %>
+                    <td><% user.role.forEach(function(user_role){ %>
 
                         <span class="badge badge-warning"><%= user_role.name %></span>
                         

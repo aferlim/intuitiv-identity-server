@@ -37,6 +37,9 @@ module.exports = app => {
     app.route('/client/add')
 
         .get(isLoggedIn, (req, res) => {
+
+            scopesList = null
+
             loadScopes((data, result) => {
                 let model = { errors: undefined, scopes: data }
                 result.render('client/client-add', model)
