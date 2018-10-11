@@ -1,29 +1,41 @@
 version: '3'
 services:
-  intuitiv-identity-server:
+
+  mongodb:
+    image: mongo:4.1
+    ports:
+      - 27017:27017
+    healthcheck:
+        test: ["CMD", "bash", "/mongo-healthcheck"]
+        interval: 1m
+        timeout: 10s
+        retries: 3
+
+  # redis:
+  #   image: redis
+
+  identity-server:
     build: .
     ports:
-      - 9000:9000
-    command: ["node", "./src/server.js"]
+      - 3000:3000
+    # command: ["node", "./src/server.js"]
     environment:
-      MONGO_CONNECTION_STRING: "mongodb://mongodb:27017"
-      port: 9000,
-      NODE_ENV: "qa"
+      MONGO_CONNECTION_STRING: "mongodb://mongodb:27017/intuitiv"
+      PORT: 3000,
+      NODE_ENV: "dev"
     depends_on:
       - mongodb
-      - redis
+      # - redis
+    links:
+      - mongodb
+      # - redis
 
   mongoexport:
     build: ./mongo-shell
     environment:
       MongoDB: "mongodb://mongodb:27017"
+    restart: on-failure
     depends_on:
       - mongodb
-  
-  mongodb:
-    image: mongo:4.1
-    ports:
-      - 27017:27017
-
-  redis:
-    image: redis
+    links:
+      - mongodb
