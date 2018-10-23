@@ -11,8 +11,8 @@ services:
         timeout: 10s
         retries: 3
 
-  # redis:
-  #   image: redis
+  redis:
+    image: redis
 
   identity-server:
     build: .
@@ -21,14 +21,14 @@ services:
     # command: ["node", "./src/server.js"]
     environment:
       MONGO_CONNECTION_STRING: "mongodb://mongodb:27017/intuitiv"
-      PORT: 3000,
+      PORT: 3000
       NODE_ENV: "dev"
     depends_on:
       - mongodb
-      # - redis
+      - redis
     links:
       - mongodb
-      # - redis
+      - redis
 
   mongoexport:
     build: ./mongo-shell
