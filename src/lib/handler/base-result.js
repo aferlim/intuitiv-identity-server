@@ -2,9 +2,9 @@ module.exports = {
 
     ok: (res, data) => res.status(200).json(data),
 
-    error: (res, err) => res.status(500).send({ error: 'Internal Server Error' }),
+    error: (res) => res.status(500).send({ error: 'Internal Server Error' }),
 
-    notfound: (res) => res.sendStatus(404),
+    notfound: (res) => res.sendStatus(404).end(),
 
     badrequest: (res, result) => res.status(400).json({ errors: result }),
 
